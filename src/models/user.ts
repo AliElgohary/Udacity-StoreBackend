@@ -1,5 +1,9 @@
-import client from "../database";
+import client from "../database/database";
 import { user } from "../../types/user.types";
+import bcrypt from "bcrypt";
+import config from "../configuration/config";
+
+
 
 class UserModel {
   async GetAllUsers(user: user) {
@@ -22,7 +26,7 @@ class UserModel {
       const result = await conn.query(sql, [
         user.firstName,
         user.lastName,
-        user.user_password,
+        PassHash(user.user_password),
       ]);
       conn.release();
       return result.rows[0];
@@ -68,3 +72,10 @@ class UserModel {
     }
   }
 }
+const PassHash = (password : string ): string => {
+  const salt = Number(config.salt);
+  const pepper = config.pepper;
+  return bcrypt.hashSync(`${password}${pepper}`, salt);
+}
+
+export default UserModel;
