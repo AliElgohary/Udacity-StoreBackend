@@ -1,11 +1,11 @@
-import client from "../database";
+import client from "../database/database";
 import { product } from "../../types/product.types";
 
 export class ProuctModel {
   async getAllProducts(product: product) {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM product";
+      const sql = "SELECT * FROM product;";
       const result = await conn.query(sql);
       conn.release();
       return result.rows;

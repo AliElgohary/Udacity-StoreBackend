@@ -6,7 +6,7 @@ import config from "../configuration/config";
 
 
 class UserModel {
-  async GetAllUsers(user: user) {
+  async GetAllUsers(): Promise<user[]> {
     try {
       const conn = await client.connect();
       const sql = "SELECT * FROM user;";
@@ -18,7 +18,7 @@ class UserModel {
     }
   }
 
-  async CreateUser(user: user) {
+  async CreateUser(user: user): Promise<user> {
     try {
       const conn = await client.connect();
       const sql =
@@ -35,10 +35,10 @@ class UserModel {
     }
   }
 
-  async DeleteUser(user: user) {
+  async DeleteUser(user: user): Promise<user[]> {
     try {
       const conn = await client.connect();
-      const sql = "DELETE FROM user WHERE id=$1";
+      const sql = "DELETE FROM user WHERE id=$1;";
       const result = await conn.query(sql, [user.id]);
       conn.release();
       return result.rows[0];
@@ -47,10 +47,10 @@ class UserModel {
     }
   }
 
-  async GetUserById(user: user) {
+  async GetUserById(user: user): Promise<user[]> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT FROM user WHERE id=$1";
+      const sql = "SELECT FROM user WHERE id=$1;";
       const result = await conn.query(sql, [user.id]);
       conn.release();
       return result.rows[0];
@@ -59,11 +59,11 @@ class UserModel {
     }
   }
   
-  async UpdateUser(user: user) {
+  async UpdateUser(user: user): Promise<user[]> {
     try {
       const conn = await client.connect();
       const sql =
-        "UPDATE user SET firstName=($1),lastName=($2) WHERE id=($3) RETURNING *";
+        "UPDATE user SET firstName=($1),lastName=($2) WHERE id=($3) RETURNING *;";
       const result = await conn.query(sql, [user.id]);
       conn.release();
       return result.rows[0];
@@ -71,11 +71,14 @@ class UserModel {
       throw new Error(`cannot update user due to ${err}`);
     }
   }
+  
 }
 const PassHash = (password : string ): string => {
   const salt = Number(config.salt);
   const pepper = config.pepper;
   return bcrypt.hashSync(`${password}${pepper}`, salt);
 }
+
+
 
 export default UserModel;
