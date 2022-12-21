@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import config from "./configuration/config";
 import appRouter from './router/router';
+import db from "./database/database"
 
 
 const app: express.Application = express();
@@ -14,6 +15,22 @@ app.use(bodyParser.json());
 app.get("/", (_req: Request, res: Response) => {
   res.send("Hello World!");
 });
+
+/* Check DB Connection pool */
+
+ db.connect().then((client) => {
+   return client
+     .query("SELECT NOW()")
+     .then((res) => {
+       client.release();
+       console.log(res.rows);
+     })
+     .catch((err) => {
+       client.release();
+       console.log(err.stack);
+     });
+ });
+
 
 
 

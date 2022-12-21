@@ -3,7 +3,7 @@ import UserModel from "../models/user";
 
 const userModel = new UserModel();
 
-export const GetAllUsers = async (res: Response, req: Request)=>{
+export const GetAllUsers = async (_req: Request,res: Response)=>{
   try {
     const getUsers = await userModel.GetAllUsers();
     if (! GetAllUsers) return;

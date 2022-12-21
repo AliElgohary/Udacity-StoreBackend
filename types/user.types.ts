@@ -3,4 +3,4 @@ export type user = {
     firstName: string,
     lastName: string,
     user_password: string
-    }
+    };

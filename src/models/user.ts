@@ -9,7 +9,7 @@ class UserModel {
   async GetAllUsers(): Promise<user[]> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT * FROM user;";
+      const sql = "SELECT * FROM users";
       const result = await conn.query(sql);
       conn.release();
       return result.rows;
@@ -22,7 +22,7 @@ class UserModel {
     try {
       const conn = await client.connect();
       const sql =
-        "INSERT INTO user(firstName,lastName,user_password) VALUES ($1,$2,$3);";
+        "INSERT INTO users(firstName,lastName,user_password) VALUES ($1,$2,$3) RETURNING *";
       const result = await conn.query(sql, [
         user.firstName,
         user.lastName,
@@ -38,7 +38,7 @@ class UserModel {
   async DeleteUser(user: user): Promise<user[]> {
     try {
       const conn = await client.connect();
-      const sql = "DELETE FROM user WHERE id=$1;";
+      const sql = "DELETE FROM user WHERE id=($1)";
       const result = await conn.query(sql, [user.id]);
       conn.release();
       return result.rows[0];
@@ -50,7 +50,7 @@ class UserModel {
   async GetUserById(user: user): Promise<user[]> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT FROM user WHERE id=$1;";
+      const sql = "SELECT FROM user WHERE id=($1)";
       const result = await conn.query(sql, [user.id]);
       conn.release();
       return result.rows[0];
