@@ -8,7 +8,7 @@ Userrouter.get('/', authMiddleWare, controller.GetAllUsers);
 Userrouter.post('/', authMiddleWare, controller.CreateUser);
 Userrouter.delete('/:id', authMiddleWare, controller.DeleteUser);
 Userrouter.get('/:id', authMiddleWare, controller.GetUserById);
-Userrouter.get('/:id', authMiddleWare, controller.UpdateUser);
+
 
 Userrouter.patch('/:id', (req, res) => { })
 

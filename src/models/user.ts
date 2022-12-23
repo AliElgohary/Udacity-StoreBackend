@@ -3,8 +3,6 @@ import { user } from "../../types/user.types";
 import bcrypt from "bcrypt";
 import config from "../configuration/config";
 
-
-
 class UserModel {
   async GetAllUsers(): Promise<user[]> {
     try {
@@ -22,11 +20,11 @@ class UserModel {
     try {
       const conn = await client.connect();
       const sql =
-        "INSERT INTO users(firstName,lastName,user_password) VALUES ($1,$2,$3) RETURNING *";
+        "INSERT INTO users (username,email,userpassword) VALUES ($1,$2,$3) RETURNING *";
       const result = await conn.query(sql, [
-        user.firstName,
-        user.lastName,
-        PassHash(user.user_password),
+        user.username,
+        user.email,
+        PassHash(user.userpassword),
       ]);
       conn.release();
       return result.rows[0];
@@ -35,11 +33,12 @@ class UserModel {
     }
   }
 
-  async DeleteUser(user: user): Promise<user[]> {
+  async DeleteUser(id: number): Promise<user> {
     try {
       const conn = await client.connect();
-      const sql = "DELETE FROM user WHERE id=($1)";
-      const result = await conn.query(sql, [user.id]);
+      const sql =
+        "DELETE FROM users WHERE id=($1) RETURNING id, email, username";
+      const result = await conn.query(sql, [id]);
       conn.release();
       return result.rows[0];
     } catch (err) {
@@ -47,38 +46,22 @@ class UserModel {
     }
   }
 
-  async GetUserById(user: user): Promise<user[]> {
+  async GetUserById(id: number): Promise<user> {
     try {
       const conn = await client.connect();
-      const sql = "SELECT FROM user WHERE id=($1)";
-      const result = await conn.query(sql, [user.id]);
+      const sql = "SELECT * FROM users WHERE id=($1)";
+      const result = await conn.query(sql, [id]);
       conn.release();
       return result.rows[0];
     } catch (err) {
       throw new Error(`cannot get user due to ${err}`);
     }
   }
-  
-  async UpdateUser(user: user): Promise<user[]> {
-    try {
-      const conn = await client.connect();
-      const sql =
-        "UPDATE user SET firstName=($1),lastName=($2) WHERE id=($3) RETURNING *;";
-      const result = await conn.query(sql, [user.id]);
-      conn.release();
-      return result.rows[0];
-    } catch (err) {
-      throw new Error(`cannot update user due to ${err}`);
-    }
-  }
-  
 }
-const PassHash = (password : string ): string => {
+const PassHash = (password: string): string => {
   const salt = Number(config.salt);
   const pepper = config.pepper;
   return bcrypt.hashSync(`${password}${pepper}`, salt);
-}
-
-
+};
 
 export default UserModel;

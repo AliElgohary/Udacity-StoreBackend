@@ -6,6 +6,7 @@ const client = new Pool({
   database: config.database,
   user: config.user,
   password: config.password,
+  port: config.dbport,
 });
 
 export default client;
