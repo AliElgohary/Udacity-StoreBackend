@@ -16,10 +16,11 @@ export const allOrders = async (_req: Request, res: Response) => {
   }
 };
 
-export const CreateOrder = async (req: Request, res: Response) => {
+export const CreateOrder = async (req: any, res: Response) => {
   try {
-    const { status, userId } = req.body;
-    const createdorder = await orderModel.CreateOrder(userId, status);
+    const { status } = req.body;
+    const {userid } = req;
+    const createdorder = await orderModel.CreateOrder(userid, status);
     if (!createdorder) return;
     res.send({
       status: 200,
