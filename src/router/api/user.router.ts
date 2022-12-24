@@ -5,9 +5,10 @@ import * as controller from '../../controllers/user.controller'
 
 
 Userrouter.get('/', authMiddleWare, controller.GetAllUsers);
+Userrouter.get('/:id', authMiddleWare, controller.GetUserById);
 Userrouter.post('/', authMiddleWare, controller.CreateUser);
 Userrouter.delete('/:id', authMiddleWare, controller.DeleteUser);
-Userrouter.get('/:id', authMiddleWare, controller.GetUserById);
+
 
 
 Userrouter.patch('/:id', (req, res) => { })
