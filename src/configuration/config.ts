@@ -11,6 +11,7 @@ const {
   DB_HOST,
   SALT,
   PEPPER,
+  TOKEN,
 } = process.env;
 
 export default {
@@ -23,4 +24,5 @@ export default {
   host: DB_HOST,
   salt: SALT,
   pepper: PEPPER,
+  token: TOKEN
 };

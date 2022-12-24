@@ -1,5 +1,5 @@
 export type order = {
     id?: number,
-    user_id : string,
+    userId : string,
     status: boolean,
 };

@@ -1,37 +1,19 @@
-import { NextFunction, Request, Response } from "express";
+import jwt from 'jsonwebtoken';
+import { NextFunction, Request, Response } from 'express';
+import config from '../configuration/config';
 
-export const authMiddleWare = (
+export const verifyAuthToken = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
-  console.log("user authenticated Successfully!");
-  next();
-};
-
-
-/*
-class authen{
-    async authenticate(username: string, password: string): Promise<user | null> {
-    const conn = await client.connect()
-    const sql = 'SELECT password FROM user WHERE firtName=($1)'
-
-    const result = await conn.query(sql, [username])
-
-    console.log(password+(config.pepper))
-
-    if(result.rows.length) {
-
-      const user = result.rows[0]
-
-      console.log(user)
-
-      if (bcrypt.compareSync(password+(config.pepper), user.password)) {
-        return user
-      }
-    }
-
-    return null
+) => {
+  try {
+    const authorizationHeader = req.headers.authorization as string;
+    const token = authorizationHeader.split(' ')[1];
+    jwt.verify(token, config.token as string);
+    next();
+    return;
+  } catch (error) {
+    return res.status(401).json({ error: 'Unauthorized access' });
   }
-}
-*/
+};

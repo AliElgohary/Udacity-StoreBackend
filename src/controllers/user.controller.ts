@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import UserModel from "../models/user";
-
+import Jwt  from "jsonwebtoken";
+import config from "../configuration/config";
 
 const userModel = new UserModel();
 
@@ -22,8 +23,10 @@ export const CreateUser = async (req: Request, res: Response) => {
   try {
     const createdUser = await userModel.CreateUser(req.body);
     if (!CreateUser) return;
+    const token = Jwt.sign(createdUser, config.token as string);
     res.send({
       status: 200,
+      json :token,
       message: "user created successfully",
       data: { ...createdUser },
     });

@@ -13,11 +13,11 @@ class OrderModel{
             throw new Error(`cant get orders due to ${error}`)
         }
     }
-    async CreateOrder(user_id: number, status: string): Promise<order>{
+    async CreateOrder(userId: number, status: string): Promise<order>{
         try {
             const conn = await client.connect();
             const sql = 'INSERT INTO orders(userId, status) VALUES ($1,$2) RETURNING *';
-            const result = await conn.query(sql, [user_id, status]);
+            const result = await conn.query(sql, [userId, status]);
             conn.release();
             return result.rows[0];
         } catch (error) {
@@ -27,7 +27,7 @@ class OrderModel{
     async UserOrder(userId: number): Promise<order[]>{
         try {
             const conn = await client.connect();
-            const sql = 'SELECT * FROM orders WHERE userid=($1)';
+            const sql = 'SELECT * FROM orders WHERE userId=($1)';
             const result = await conn.query(sql, [userId]);
             conn.release();
             return result.rows;
