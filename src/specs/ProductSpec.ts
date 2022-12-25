@@ -33,26 +33,26 @@ describe('Testing Prodcuts Methods', () => {
   });
 });
 describe('Testing products Endpoints.', () => {
-  it('GET /products', async () => {
-    const response = await request.get('/products');
+  it('GET /api/products', async () => {
+    const response = await request.get('/api/products');
     expect(response.status).toBe(200);
   });
 
-  it('GET /product/:id ', async () => {
-    const response = await request.get('/products/1');
+  it('GET /api/product/:id ', async () => {
+    const response = await request.get('/api/products/1');
     expect(response.status).toBe(200);
   });
 
-  it('POST /product without a token', async () => {
-    const response = await request.post('/products').send({
+  it('POST /api/products without a token', async () => {
+    const response = await request.post('/api/products').send({
       name: 'test',
       price: 123,
     });
     expect(response.status).toBe(401);
   });
-  it('POST /product with a token', async () => {
+  it('POST /api/product with a token', async () => {
     const response = await request
-      .post('/products')
+      .post('/api/products')
       .send({
         name: 'test',
         price: 123,
@@ -61,15 +61,15 @@ describe('Testing products Endpoints.', () => {
     expect(response.status).toBe(200);
   });
   it('DELETE /product without prodiving a token', async () => {
-    const response = await request.delete('/products').send({
+    const response = await request.delete('/api/products').send({
       id: 1,
     });
     expect(response.status).toBe(401);
   });
 
-  it('DELETE /product with providing a token', async () => {
+  it('DELETE /api/product with providing a token', async () => {
     const response = await request
-      .delete('/products')
+      .delete('/api/products')
       .send({
         id: 1,
       })

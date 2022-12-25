@@ -32,37 +32,30 @@ describe('Testing Orders Methods', () => {
   });
 });
 describe('Testing orders Endpoints.', () => {
-  it('GET /orders without a token', async () => {
+  it('GET /orders ', async () => {
     const response = await request.get('/orders');
-    expect(response.status).toBe(401);
-  });
-  it('GET /orders with a token', async () => {
-    const response = await request
-      .get('/orders')
-      .set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
-
   it('GET /order/:id without a token ', async () => {
-    const response = await request.get('/orders/1');
+    const response = await request.get('/api/orders/1');
     expect(response.status).toBe(401);
   });
-  it('GET /order/:id with a token ', async () => {
+  it('GET /api/orders/:id with a token ', async () => {
     const response = await request
-      .get('/orders/1')
+      .get('/api/orders/1')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
-  it('POST /order without a token', async () => {
-    const response = await request.post('/orders').send({
+  it('POST /api/orders without a token', async () => {
+    const response = await request.post('/api/orders').send({
       status: 'test',
       userId: 1,
     });
     expect(response.status).toBe(401);
   });
-  it('POST /order with a token', async () => {
+  it('POST /api/orders with a token', async () => {
     const response = await request
-      .post('/orders')
+      .post('/api/orders')
       .send({
         status: 'test',
         userId: 1,
@@ -70,29 +63,10 @@ describe('Testing orders Endpoints.', () => {
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
-
-  it('PUT /order without prodiving a token', async () => {
-    const response = await request.put('/orders').send({
-      id: 1,
-      status: 'update',
-      userId: 1,
-    });
-    expect(response.status).toBe(401);
-  });
-  it('DELETE /order without prodiving a token', async () => {
-    const response = await request.delete('/orders').send({
+  it('DELETE /api/order', async () => {
+    const response = await request.delete('/api/orders').send({
       id: 1,
     });
-    expect(response.status).toBe(401);
-  });
-
-  it('DELETE /order with providing a token', async () => {
-    const response = await request
-      .delete('/orders')
-      .send({
-        id: 1,
-      })
-      .set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
 });

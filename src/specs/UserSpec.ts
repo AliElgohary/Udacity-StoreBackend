@@ -33,32 +33,32 @@ describe('Testing User Methods', () => {
   });
 });
 describe('Testing Users Endpoints.', () => {
-  it('GET /users without prodiving a token', async () => {
-    const response = await request.get('/users');
+  it('GET /api/users without prodiving a token', async () => {
+    const response = await request.get('/api/users');
     expect(response.status).toBe(401);
   });
 
-  it('GET /users with providing a token', async () => {
+  it('GET /api/users with providing a token', async () => {
     const response = await request
-      .get('/users')
+      .get('/api/users')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
 
-  it('GET /user/:id without prodiving a token', async () => {
-    const response = await request.get('/users/1');
+  it('GET /api/user/:id without prodiving a token', async () => {
+    const response = await request.get('/api/users/1');
     expect(response.status).toBe(401);
   });
 
-  it('GET /user/:id with providing a token', async () => {
+  it('GET /api/user/:id with providing a token', async () => {
     const response = await request
-      .get('/users/1')
+      .get('/api/users/1')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(200);
   });
 
-  it('POST /user', async () => {
-    const response = await request.post('/users').send({
+  it('POST /api/user', async () => {
+    const response = await request.post('/api/users').send({
       username: 'name',
       email: 'email',
       password: '12345678',
@@ -66,30 +66,8 @@ describe('Testing Users Endpoints.', () => {
     expect(response.status).toBe(200);
   });
 
-  it('PUT /user without prodiving a token', async () => {
-    const response = await request.put('/users').send({
-      id: 1,
-      username: 'update',
-      email: 'update',
-      password: 'update',
-    });
-    expect(response.status).toBe(401);
-  });
-
-  it('PUT /user with providing a token', async () => {
-    const response = await request
-      .put('/user')
-      .send({
-        id: 1,
-        username: 'update',
-        email: 'update',
-        password: 'update',
-      })
-      .set('Authorization', `Bearer ${token}`);
-    expect(response.status).toBe(200);
-  });
-  it('DELETE /user without prodiving a token', async () => {
-    const response = await request.delete('/users').send({
+  it('DELETE /api/user without prodiving a token', async () => {
+    const response = await request.delete('/api/users').send({
       id: 1,
     });
     expect(response.status).toBe(401);
