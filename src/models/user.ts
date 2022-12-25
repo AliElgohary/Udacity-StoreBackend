@@ -1,5 +1,5 @@
 import client from "../database/database";
-import { user } from "../../types/user.types";
+import { user } from "../types/user.types";
 import bcrypt from "bcrypt";
 import config from "../configuration/config";
 import  Jwt  from "jsonwebtoken";

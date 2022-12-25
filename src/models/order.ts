@@ -1,5 +1,5 @@
 import client from "../database/database";
-import { order } from "../../types/order.types";
+import { order } from "../types/order.types";
 
 class OrderModel{
     async getOrders(): Promise<order[]>{

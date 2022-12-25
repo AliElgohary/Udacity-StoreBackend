@@ -1,5 +1,5 @@
 import client from "../database/database";
-import { product } from "../../types/product.types";
+import { product } from "../types/product.types";
 
 export class ProuctModel {
   async getAllProducts(): Promise<product[]> {
